@@ -1,0 +1,27 @@
+exclude: ^(profiling/|tests/data/)
+repos:
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-docstring-first
+
+  - repo: https://github.com/google/yapf
+    rev: v0.40.2
+    hooks:
+      - id: yapf
+        name: yapf
+        language: python
+        entry: yapf
+        args:
+          [
+            -i,
+            "--style={based_on_style: google, spaces_before_comment: 4, split_before_logical_operator: true}",
+          ]
+        types: [python]
