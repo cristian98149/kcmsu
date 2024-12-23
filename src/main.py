@@ -1,15 +1,16 @@
 from kubernetes import client, config
-from utils.utils import list_cm, list_ns, list_secret, check_cm_usage
 from prettytable import PrettyTable
 
+from utils.utils import list_cm, list_ns, list_secret, usage
 
 if __name__ == "__main__":
     config.load_kube_config()
     api = client.CoreV1Api()
-    
+
     selected_ns = list_ns(api).items
 
-    table = PrettyTable(['Namespace', 'Kind', 'Name', 'UsedCount', 'UsedAs', 'UsedBy'])
+    table = PrettyTable(
+        ['Namespace', 'Kind', 'Name', 'UsedCount', 'UsedAs', 'UsedBy'])
     table.align = "l"
     table.sortby = "UsedCount"
 
@@ -19,10 +20,13 @@ if __name__ == "__main__":
         secret_list = list_secret(api, ns_name)
         for cm in cm_list.items:
             cm_name = cm.metadata.name
-            count, used_as, used_by = check_cm_usage(api, ns_name, cm_name)
-            table.add_row([ns_name, 'config-map', cm_name, count, used_as, used_by ])
+            count, used_as, used_by = usage(api, ns_name, "config_map", cm_name)
+            table.add_row(
+                [ns_name, 'config-map', cm_name, count, used_as, used_by])
         for secret in secret_list.items:
-            #count, used_as, used_by = check_secret_usage(api, ns_name, cm)
-            table.add_row([ns_name, 'secret', secret.metadata.name, 0, "used_as", "used_by" ])
-    
+            secret_name = secret.metadata.name
+            count, used_as, used_by = usage(api, ns_name, "secret", secret_name)
+            table.add_row(
+                [ns_name, 'secret', secret_name, count, used_as, used_by])
+
     print(table)
