@@ -1,7 +1,7 @@
 # kcmsu
-K8s ConfigMaps and Secrets Usage allows you to monitor the usage of ConfigMaps and Secrets on you Kuberner Cluster.
+K8s ConfigMaps and Secrets Usage allows you to monitor the usage of ConfigMaps and Secrets on your Kubernetes Cluster.
 
-This will help you to identify:
+By checking all configmaps and secrets against PODs, it will help you to identify:
 - unused ConfigMaps and Secrets
 - which resource is using ConfigMaps and Secrets
 
