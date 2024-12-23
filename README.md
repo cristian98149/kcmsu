@@ -7,3 +7,6 @@ This will help you to identify:
 
 # Installation
 ## Helm
+
+# Output
+![image](https://github.com/user-attachments/assets/3ca2897f-982b-4372-ad68-50a8c27f619a)
