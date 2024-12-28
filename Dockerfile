@@ -7,4 +7,3 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Step 7: Define the command to run your app (this example uses Flask)
 CMD ["python", "main.py"]
-
