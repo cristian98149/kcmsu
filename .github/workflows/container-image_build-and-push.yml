@@ -1,0 +1,48 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the main branch
+      - 5-add-github-actions-for-ci
+    paths:
+      - 'Dockerfile'          # Trigger if the Dockerfile is modified
+      - 'src/**'              # Trigger if anything in the 'src' directory is modified
+  pull_request:
+    branches:
+      - main # Trigger on pull requests targeting the main branch
+    paths:
+      - 'Dockerfile'          # Trigger if the Dockerfile is modified
+      - 'src/**'              # Trigger if anything in the 'src' directory is modified
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # Step 1: Check out the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    # Step 2: Log in to GitHub Container Registry
+    - name: Log in to GitHub Container Registry
+      uses: ghcr.io/actions/setup-docker@v2
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    # Step 3: Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
+    
+    # Step 4: Push the Docker image to GitHub Container Registry
+    - name: Push Docker image
+      run: |
+        docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+    
+    # Optional: Tag and push the latest image
+    - name: Tag and push 'latest' Docker image
+      run: |
+        docker tag ghcr.io/${{ github.repository }}:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
+        docker push ghcr.io/${{ github.repository }}:latest
