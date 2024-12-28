@@ -16,7 +16,7 @@ on:
       - 'src/**'              # Trigger if anything in the 'src' directory is modified
 
 jobs:
-  build_and_push:
+  container-image_build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
