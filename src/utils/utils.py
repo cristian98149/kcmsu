@@ -142,4 +142,4 @@ def usage(api, ns, resource_type, name):
     elif resource_type == "secret":
         count, used_as, used_by = secret_usage(pods, name)
 
-    return count, used_as, used_by
+    return count, "\n".join(used_as), "\n".join(used_by)
