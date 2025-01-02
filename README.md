@@ -14,4 +14,5 @@ Also, check available chart versions [here](https://github.com/cristian98149/kcm
 ```helm install kcmsu oci://ghcr.io/cristian98149/kcmsu-chart --version <VERSION>```
 
 # Output
-![image](https://github.com/user-attachments/assets/3ca2897f-982b-4372-ad68-50a8c27f619a)
+![image](https://github.com/user-attachments/assets/d26176d1-78b3-4b4e-84d3-484a9e60909f)
+
