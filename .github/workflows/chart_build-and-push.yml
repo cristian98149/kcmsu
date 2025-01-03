@@ -30,4 +30,4 @@ jobs:
       - name: Push Helm Chart to GHCR
         run: |
           export CHART_NAME=$(helm show chart ./chart | grep name | cut -d ':' -f 2 | xargs)
-          helm push ./${{ CHART_NAME }}-*.tgz oci://ghcr.io/${{ github.actor }}
+          helm push ./${CHART_NAME }-*.tgz oci://ghcr.io/${{ github.actor }}
