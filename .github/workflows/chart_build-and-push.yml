@@ -2,8 +2,8 @@ name: Build and Push Helm Chart
 
 on:
   push:
-    branches:
-      - main
+    #branches:
+    #  - main
     paths:
       - 'chart/**'
 
