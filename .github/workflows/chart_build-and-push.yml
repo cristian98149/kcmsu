@@ -10,6 +10,9 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -25,4 +28,6 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io/${{ github.actor }} -u ${{ github.actor }} --password-stdin
 
       - name: Push Helm Chart to GHCR
-        run: helm push ./kcmsu-chart-0.0.0.tgz oci://ghcr.io/${{ github.actor }}
+        run: |
+          export CHART_NAME=$(helm show chart ./chart | grep name | cut -d ':' -f 2 | xargs)
+          helm push ./${{ CHART_NAME }}-*.tgz oci://ghcr.io/${{ github.actor }}
