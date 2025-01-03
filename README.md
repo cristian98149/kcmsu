@@ -4,6 +4,7 @@ K8s ConfigMaps and Secrets Usage it's a cronjob that allows you to monitor the u
 By checking all configmaps and secrets against PODs, it will help you to identify:
 - unused ConfigMaps and Secrets
 - which resource is using ConfigMaps and Secrets
+- how ConfigMaps and Secrets are used (volume, env, envFrom)
 
 # Installation
 ## Helm
