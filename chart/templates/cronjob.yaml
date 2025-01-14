@@ -13,4 +13,9 @@ spec:
             - name: cronjob
               image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- if .Values.namespaces }}
+              env:
+              - name: NAMESPACES
+                value: {{ join "," .Values.namespaces }}
+              {{- end }}
           restartPolicy: OnFailure

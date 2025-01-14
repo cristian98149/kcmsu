@@ -1,5 +1,5 @@
 apiVersion: v2
 name: kcmsu-chart
 description: A Helm chart that deploys a CronJob and RBAC for kcmsu.
-version: 0.0.2
+version: 0.0.3
 appVersion: "latest"

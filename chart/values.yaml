@@ -7,6 +7,11 @@ cronjob:
   schedule: "*/1 * * * *"  # Cron schedule for job execution
   jobName: kcmsu
 
+# Namespaces to be scanned by the tool
+# namespaces:
+#   - kube-system
+#   - default
+
 serviceAccount:
   create: true
   name: kcmsu
