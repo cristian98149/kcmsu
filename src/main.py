@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from kubernetes import client, config
 from tabulate import tabulate
 
@@ -9,7 +10,23 @@ if __name__ == "__main__":
     # config.load_kube_config() # when running locally
     api = client.CoreV1Api()
 
-    selected_ns = list_ns(api).items
+    namespaces = os.getenv("NAMESPACES", [])
+    selected_ns = []
+    cluster_namespaces = {} 
+
+    for ns in list_ns(api).items:
+        cluster_namespaces.update({ ns.metadata.name : ns })
+
+    if namespaces:
+        for ns in namespaces.split(","):
+            if ns in cluster_namespaces:
+                selected_ns.append(cluster_namespaces[ns])
+            else:
+                print(f"WARNING: Namespace {ns} not found. Skipping it.")
+
+    if not namespaces or not selected_ns:
+        print("INFO: Namespace list is empty. Checking all namespaces.")
+        selected_ns = list_ns(api).items
 
     df = pd.DataFrame(
         columns=['Namespace', 'Kind', 'Name', 'UsedCount', 'UsedAs', 'UsedBy'])
