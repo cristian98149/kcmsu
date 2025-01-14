@@ -7,12 +7,6 @@ on:
     paths:
       - 'Dockerfile'          # Trigger if the Dockerfile is modified
       - 'src/**'              # Trigger if anything in the 'src' directory is modified
-  pull_request:
-    branches:
-      - main # Trigger on pull requests targeting the main branch
-    paths:
-      - 'Dockerfile'          # Trigger if the Dockerfile is modified
-      - 'src/**'              # Trigger if anything in the 'src' directory is modified
 
 jobs:
   container-image_build-and-push:
