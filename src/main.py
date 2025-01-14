@@ -6,8 +6,8 @@ from tabulate import tabulate
 from utils.utils import list_cm, list_ns, list_secret, usage
 
 if __name__ == "__main__":
-    # config.load_incluster_config()    # when running in a POD
-    config.load_kube_config() # when running locally
+    config.load_incluster_config()    # when running in a POD
+    # config.load_kube_config() # when running locally
     api = client.CoreV1Api()
 
     namespaces = os.getenv("NAMESPACES", [])
