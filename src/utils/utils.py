@@ -1,3 +1,5 @@
+import logging
+
 from kubernetes.client.rest import ApiException
 
 
@@ -6,7 +8,8 @@ def list_ns(api):
         api_response = api.list_namespace(pretty=True)
         return api_response
     except ApiException as e:
-        print("Exception when calling CoreV1Api->list_namespace: %s\n" % e)
+        logging.error("Exception when calling CoreV1Api->list_namespace: %s\n" %
+                      e)
 
 
 def list_cm(api, ns):
@@ -24,8 +27,9 @@ def list_secret(api, ns):
         api_response = api.list_namespaced_secret(namespace=ns, pretty=True)
         return api_response
     except ApiException as e:
-        print("Exception when calling CoreV1Api->list_namespaced_secret: %s\n" %
-              e)
+        logging.error(
+            "Exception when calling CoreV1Api->list_namespaced_secret: %s\n" %
+            e)
 
 
 def list_pod(api, ns):
@@ -34,9 +38,9 @@ def list_pod(api, ns):
         return api_response
     except ApiException as e:
         if "404" in str(e):
-            print("No POD found in ns %s\n" % ns)
+            logging.error("No POD found in ns %s\n" % ns)
         else:
-            print(
+            logging.error(
                 "Exception when calling CoreV1Api->list_namespaced_pod: %s\n" %
                 e)
 

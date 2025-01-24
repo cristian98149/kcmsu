@@ -1,31 +1,37 @@
-import pandas as pd
+import logging
 import os
+
+import pandas as pd
 from kubernetes import client, config
 from tabulate import tabulate
 
 from utils.utils import list_cm, list_ns, list_secret, usage
 
 if __name__ == "__main__":
+    logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                        level=logging.INFO,
+                        datefmt='%Y-%m-%d %H:%M:%S')
+
     config.load_incluster_config()    # when running in a POD
     # config.load_kube_config() # when running locally
     api = client.CoreV1Api()
 
     namespaces = os.getenv("NAMESPACES", [])
     selected_ns = []
-    cluster_namespaces = {} 
+    cluster_namespaces = {}
 
     for ns in list_ns(api).items:
-        cluster_namespaces.update({ ns.metadata.name : ns })
+        cluster_namespaces.update({ns.metadata.name: ns})
 
     if namespaces:
         for ns in namespaces.split(","):
             if ns in cluster_namespaces:
                 selected_ns.append(cluster_namespaces[ns])
             else:
-                print(f"WARNING: Namespace {ns} not found. Skipping it.")
+                logging.warning(f"Namespace {ns} not found. Skipping it.")
 
     if not namespaces or not selected_ns:
-        print("INFO: Namespace list is empty. Checking all namespaces.")
+        logging.info("Namespace list is empty. Checking all namespaces.")
         selected_ns = list_ns(api).items
 
     df = pd.DataFrame(
